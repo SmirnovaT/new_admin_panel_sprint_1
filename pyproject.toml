@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "new-admin-panel-sprint-1-git"
+version = "0.1.0"
+description = ""
+authors = ["Татьяна Смирнова <tsmirnova@astralinux.ru>"]
+readme = "README.md"
+#packages = [{include = "new_admin_panel_sprint_1"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+psycopg2-binary = "^2.9.9"
+faker = "^24.3.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

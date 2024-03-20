@@ -1,0 +1,14 @@
+.dockerignore
+.git
+.env_example
+.env.tpl
+.gitignore
+docker-compose*
+Dockerfile*
+LICENSE
+README.md
+*.bak
+venv/
+**/__pycache__/
+Makefile
+.env
