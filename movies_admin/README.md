@@ -13,4 +13,4 @@
 
 1. Необходимо создать файл .env и заполнить по шаблону .env_example
 
-2. Приложние запускается командой: `python manage.py runserver`
+2. Приложeние запускается командой: `python manage.py runserver`
