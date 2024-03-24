@@ -1,0 +1,113 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-03-24 08:59+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: movies/apps.py:9
+msgid "movies"
+msgstr ""
+
+#: movies/models.py:9
+msgid "name"
+msgstr ""
+
+#: movies/models.py:10 movies/models.py:37
+msgid "description"
+msgstr ""
+
+#: movies/models.py:14
+msgid "Genre"
+msgstr ""
+
+#: movies/models.py:15
+msgid "Genres"
+msgstr ""
+
+#: movies/models.py:23
+msgid "full_name"
+msgstr ""
+
+#: movies/models.py:27
+msgid "Participant"
+msgstr ""
+
+#: movies/models.py:28
+msgid "Participants"
+msgstr ""
+
+#: movies/models.py:36
+msgid "title"
+msgstr ""
+
+#: movies/models.py:38
+msgid "creation_date"
+msgstr ""
+
+#: movies/models.py:39
+msgid "rating"
+msgstr ""
+
+#: movies/models.py:44
+msgid "Movie"
+msgstr ""
+
+#: movies/models.py:45
+msgid "Show"
+msgstr ""
+
+#: movies/models.py:47
+msgid "type"
+msgstr ""
+
+#: movies/models.py:48
+msgid "certificate"
+msgstr ""
+
+#: movies/models.py:49
+msgid "file_path"
+msgstr ""
+
+#: movies/models.py:55
+msgid "Film work"
+msgstr ""
+
+#: movies/models.py:56
+msgid "Film works"
+msgstr ""
+
+#: movies/models.py:69 movies/models.py:70
+msgid "film genre"
+msgstr ""
+
+#: movies/models.py:79
+msgid "Director"
+msgstr ""
+
+#: movies/models.py:80
+msgid "Actor"
+msgstr ""
+
+#: movies/models.py:81
+msgid "Writer"
+msgstr ""
+
+#: movies/models.py:83
+msgid "role"
+msgstr ""
+
+#: movies/models.py:87
+msgid "Film participant"
+msgstr ""
+
+#: movies/models.py:88
+msgid "Film participants"
+msgstr ""
