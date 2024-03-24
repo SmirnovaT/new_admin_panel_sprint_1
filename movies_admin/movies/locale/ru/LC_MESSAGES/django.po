@@ -1,0 +1,117 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-03-24 08:59+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: movies/apps.py:9
+#, fuzzy
+#| msgid "Movie"
+msgid "movies"
+msgstr "Кино"
+
+#: movies/models.py:9
+msgid "name"
+msgstr "Название"
+
+#: movies/models.py:10 movies/models.py:37
+msgid "description"
+msgstr "Описание"
+
+#: movies/models.py:14
+msgid "Genre"
+msgstr "Жанр"
+
+#: movies/models.py:15
+msgid "Genres"
+msgstr "Жанры"
+
+#: movies/models.py:23
+msgid "full_name"
+msgstr "Полное имя"
+
+#: movies/models.py:27
+msgid "Participant"
+msgstr "Участник"
+
+#: movies/models.py:28
+msgid "Participants"
+msgstr "Участники"
+
+#: movies/models.py:36
+msgid "title"
+msgstr "Название"
+
+#: movies/models.py:38
+msgid "creation_date"
+msgstr "Дата создания"
+
+#: movies/models.py:39
+msgid "rating"
+msgstr "Рейтинг"
+
+#: movies/models.py:44
+msgid "Movie"
+msgstr "Кино"
+
+#: movies/models.py:45
+msgid "Show"
+msgstr "Шоу"
+
+#: movies/models.py:47
+msgid "type"
+msgstr "Тип"
+
+#: movies/models.py:48
+msgid "certificate"
+msgstr "Лицензия"
+
+#: movies/models.py:49
+msgid "file_path"
+msgstr "Ссылка на файл"
+
+#: movies/models.py:55
+msgid "Film work"
+msgstr "Кинопроизведение"
+
+#: movies/models.py:56
+msgid "Film works"
+msgstr "Кинопроизведения"
+
+#: movies/models.py:69 movies/models.py:70
+msgid "film genre"
+msgstr "Жанр фильма"
+
+#: movies/models.py:79
+msgid "Director"
+msgstr "Директор"
+
+#: movies/models.py:80
+msgid "Actor"
+msgstr "Актер"
+
+#: movies/models.py:81
+msgid "Writer"
+msgstr "Создатель"
+
+#: movies/models.py:83
+msgid "role"
+msgstr "Роль"
+
+#: movies/models.py:87
+msgid "Film participant"
+msgstr "Участник фильма"
+
+#: movies/models.py:88
+msgid "Film participants"
+msgstr "Участники фильма"
