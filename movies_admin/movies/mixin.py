@@ -4,8 +4,8 @@ import uuid
 
 class TimeStampedMixin(models.Model):
     "Класс-миксин для Даты создания и Даты редактирования."
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         abstract = True
@@ -13,7 +13,7 @@ class TimeStampedMixin(models.Model):
 
 class CreatedTimeStampedMixin(models.Model):
     "Класс-миксин для Даты создания."
-    created = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         abstract = True
