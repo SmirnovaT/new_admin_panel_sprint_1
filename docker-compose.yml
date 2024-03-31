@@ -18,4 +18,3 @@ volumes:
 networks:
   backend.local:
     external: true
-

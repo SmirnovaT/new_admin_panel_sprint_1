@@ -86,6 +86,18 @@ django = ">=3.2.4"
 sqlparse = ">=0.2"
 
 [[package]]
+name = "more-itertools"
+version = "10.2.0"
+description = "More routines for operating on iterables, beyond itertools"
+category = "main"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "more-itertools-10.2.0.tar.gz", hash = "sha256:8fccb480c43d3e99a00087634c06dd02b0d50fbf088b380de5a41a015ec239e1"},
+    {file = "more_itertools-10.2.0-py3-none-any.whl", hash = "sha256:686b06abe565edfab151cb8fd385a05651e1fdf8f0a14191e4439283421f8684"},
+]
+
+[[package]]
 name = "psycopg2-binary"
 version = "2.9.9"
 description = "psycopg2 - Python-PostgreSQL Database Adapter"
@@ -235,4 +247,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "d4e5da19ba4a1413b28dd889015cc2fcf0b41b6b3b2212caadc67b2d1fe93194"
+content-hash = "d08307b17ef494e93305c9bf83bc84edf3af32fc9b7acf170a4124d8d055b8da"
