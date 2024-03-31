@@ -9,7 +9,6 @@ load_dotenv()
 db_path = os.environ.get("DB_PATH")
 
 
-#
 class SQLiteExtractor:
     """Установка и закрытие соединения с SQLite. Импорт данных."""
 
