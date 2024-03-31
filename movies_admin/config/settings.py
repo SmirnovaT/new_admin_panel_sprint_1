@@ -9,35 +9,35 @@ from pathlib import Path
 load_dotenv()
 
 include(
-    'components/database.py',
-    'components/installed_apps.py',
-    'components/middleware.py',
-    'components/templates.py',
+    "components/database.py",
+    "components/installed_apps.py",
+    "components/middleware.py",
+    "components/templates.py",
 )
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
-DEBUG = os.environ.get('DEBUG', False)
+DEBUG = os.environ.get("DEBUG", False)
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 
-ROOT_URLCONF = 'config.urls'
+ROOT_URLCONF = "config.urls"
 
-WSGI_APPLICATION = 'config.wsgi.application'
+WSGI_APPLICATION = "config.wsgi.application"
 
-LANGUAGE_CODE = 'ru-RU'
+LANGUAGE_CODE = "ru-RU"
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = "UTC"
 
 USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = 'static/'
+STATIC_URL = "static/"
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-LOCALE_PATHS = ['movies/locale']
+LOCALE_PATHS = ["movies/locale"]
 
-INTERNAL_IPS = ['127.0.0.1']
+INTERNAL_IPS = ["127.0.0.1"]
