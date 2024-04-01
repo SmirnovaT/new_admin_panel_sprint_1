@@ -1,6 +1,3 @@
-"""
-Конфигурация проекта.
-"""
 import os
 from dotenv import load_dotenv
 from split_settings.tools import include
