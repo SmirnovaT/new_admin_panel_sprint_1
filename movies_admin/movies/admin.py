@@ -1,6 +1,3 @@
-"""
-Настройка отображения и поведения моделей в административной панели.
-"""
 from django.contrib import admin
 
 from .models import Genre, FilmWork, GenreFilmWork, Person, PersonFilmWork
