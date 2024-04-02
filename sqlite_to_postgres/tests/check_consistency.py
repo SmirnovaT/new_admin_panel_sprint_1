@@ -5,6 +5,8 @@ from sqlite_to_postgres.sqlite_service import SQLiteService
 from sqlite_to_postgres.postgres_service import PostgresService
 import sqlite_to_postgres.settings as settings
 
+logging.basicConfig(level=logging.INFO)
+
 base_path = Path(__file__).resolve().parent.parent
 SQLITE_DB_PATH = base_path / settings.SQLITE_DB_PATH
 
@@ -31,7 +33,7 @@ def compare_data(sqlite_conn, pg_conn):
                 assert batch_sqlite == batch_postgres
         except AssertionError:
             logging.error(f"Данные не совпадают в таблице {table}")
-    print("Все данные сопоставлены, различий нет")
+    logging.info("Все данные сопоставлены, различий нет")
 
 
 def get_all_from_table_sqlite(sqlite_conn, table, model):

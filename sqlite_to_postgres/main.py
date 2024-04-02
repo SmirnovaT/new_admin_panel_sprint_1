@@ -6,6 +6,8 @@ import settings
 
 import logging
 
+logging.basicConfig(level=logging.INFO)
+
 
 def load_from_sqlite(sqlite_conn, pg_conn):
     """Основной метод загрузки данных из SQLite в Postgres"""
@@ -19,7 +21,7 @@ def load_from_sqlite(sqlite_conn, pg_conn):
                 postgres_service.data_to_postgres(
                     pg_conn, table, column_names_str, data_to_insert
                 )
-            print(f"Данные из таблицы {table} успешно загружены")
+            logging.info(f"Данные из таблицы {table} успешно загружены")
         except Exception as e:
             logging.error(e)
 
