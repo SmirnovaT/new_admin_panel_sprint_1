@@ -9,7 +9,7 @@ load_dotenv()
 db_path = os.environ.get("DB_PATH")
 
 
-class SQLiteExtractor:
+class SQLiteService:
     """Установка и закрытие соединения с SQLite. Импорт данных."""
 
     @contextmanager
@@ -28,7 +28,23 @@ class SQLiteExtractor:
         curs = conn.cursor()
         try:
             curs.execute(f"SELECT * FROM {table_name}")
-            data = curs.fetchall()
-            return data
+            while True:
+                rows = curs.fetchmany(100)
+                if not rows:
+                    break
+                yield rows
         except sqlite3.Error as e:
             logging.error(f"Не удалось забрать данные из таблицы {table_name}: {e}")
+
+    @staticmethod
+    def get_count_data(conn, table_name):
+        """Получение количества строк из таблицы Sqlite."""
+        curs = conn.cursor()
+        try:
+            curs.execute(f"SELECT count(*) FROM {table_name}")
+            row = curs.fetchone()
+            return row[0]
+        except sqlite3.Error as e:
+            logging.error(
+                f"Не удалось получить количество строк из таблицы {table_name}: {e}"
+            )

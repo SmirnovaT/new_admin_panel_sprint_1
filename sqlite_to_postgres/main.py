@@ -1,6 +1,6 @@
 from dataclasses import astuple, fields
 
-from sqlite_to_postgres.from_sqlite import SQLiteExtractor
+from sqlite_to_postgres.sqlite_service import SQLiteService
 from sqlite_to_postgres.models import (
     FilmWork,
     Genre,
@@ -8,7 +8,7 @@ from sqlite_to_postgres.models import (
     PersonFilmWork,
     Person,
 )
-from sqlite_to_postgres.to_postgres import PostgresSaver
+from sqlite_to_postgres.postgres_service import PostgresService
 
 import logging
 import os
@@ -32,11 +32,12 @@ def load_from_sqlite(sqlite_conn, pg_conn):
 
     for table, model in mapping_table.items():
         try:
-            data = sqlite_extractor.get_data_from_table(sqlite_conn, table)
-            data_to_insert, column_names_str = reformat_data(model, data)
-            postgres_saver.data_to_postgres(
-                pg_conn, table, column_names_str, data_to_insert
-            )
+            data_generator = sqlite_service.get_data_from_table(sqlite_conn, table)
+            for rows in data_generator:
+                data_to_insert, column_names_str = reformat_data(model, rows)
+                postgres_service.data_to_postgres(
+                    pg_conn, table, column_names_str, data_to_insert
+                )
             print(f"Данные из таблицы {table} успешно загружены")
         except Exception as e:
             logging.error(e)
@@ -51,9 +52,9 @@ def reformat_data(model, data):
 
 
 if __name__ == "__main__":
-    sqlite_extractor = SQLiteExtractor()
-    postgres_saver = PostgresSaver()
-    with sqlite_extractor.conn_context(
+    sqlite_service = SQLiteService()
+    postgres_service = PostgresService()
+    with sqlite_service.conn_context(
         db_path
-    ) as sqlite_conn, postgres_saver.conn_context(dsn) as pg_conn:
+    ) as sqlite_conn, postgres_service.conn_context(dsn) as pg_conn:
         load_from_sqlite(sqlite_conn, pg_conn)

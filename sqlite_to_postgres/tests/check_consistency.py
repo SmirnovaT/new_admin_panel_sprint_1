@@ -1,11 +1,7 @@
+import logging
 from dataclasses import astuple
 from pathlib import Path
-from psycopg2 import sql
-import psycopg2
-
-import psycopg2.extras
-import logging
-from sqlite_to_postgres.from_sqlite import SQLiteExtractor
+from sqlite_to_postgres.sqlite_service import SQLiteService
 from sqlite_to_postgres.models import (
     Genre,
     FilmWork,
@@ -13,7 +9,7 @@ from sqlite_to_postgres.models import (
     GenreFilmWork,
     PersonFilmWork,
 )
-from sqlite_to_postgres.to_postgres import PostgresSaver
+from sqlite_to_postgres.postgres_service import PostgresService
 import os
 from dotenv import load_dotenv
 
@@ -36,53 +32,52 @@ def compare_data(sqlite_conn, pg_conn):
         "genre_film_work": GenreFilmWork,
     }
     for table, model in mapping_table.items():
-        len_data_sqlite, sorted_data_sqlite = get_all_from_table_sqlite(
-            sqlite_conn, table, model
-        )
-
-        len_data_pg, sorted_data_pg = get_all_from_postgres(pg_conn, table, model)
-
+        count_rows_sqlite = sqlite_service.get_count_data(sqlite_conn, table)
+        count_rows_postgres = postgres_service.get_count_data(pg_conn, table)
         try:
-            assert len_data_sqlite == len_data_pg
+            assert count_rows_sqlite == count_rows_postgres
         except AssertionError:
-            logging.error(f"Длина таблиц {table} не совпадает")
+            logging.error(f"Количество строк не совпадает в таблице {table}")
+
+        part_data_sqlite = get_all_from_table_sqlite(sqlite_conn, table, model)
+
+        part_data_postgres = get_data_postgres(pg_conn, table, model)
+
         try:
-            assert sorted_data_sqlite == sorted_data_pg
+            for batch_sqlite, batch_postgres in zip(
+                part_data_sqlite, part_data_postgres
+            ):
+                assert batch_sqlite == batch_postgres
         except AssertionError:
             logging.error(f"Данные не совпадают в таблице {table}")
-
     print("Все данные сопоставлены, различий нет")
 
 
 def get_all_from_table_sqlite(sqlite_conn, table, model):
     """Получение данных из SQLite."""
-    sqlite_data = sqlite_extractor.get_data_from_table(sqlite_conn, table)
-    data_from_db = [model(**row).cut_date() for row in sqlite_data]
-    return reformat_data(data_from_db)
+    sqlite_data_generator = sqlite_service.get_data_from_table(sqlite_conn, table)
+    for rows in sqlite_data_generator:
+        data_from_db = [model(**row).cut_date() for row in rows]
+        yield reformat_data(data_from_db)
 
 
-def get_all_from_postgres(pg_conn, table, model):
+def get_data_postgres(pg_conn, table, model):
     """Получение данных из Postgres."""
-    try:
-        cur = pg_conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        cur.execute(sql.SQL("SELECT * FROM content.{}").format(sql.Identifier(table)))
-        pg_data = cur.fetchall()
-        data_from_db = [(model(**row)).post_init() for row in pg_data]
-        return reformat_data(data_from_db)
-    except (Exception, psycopg2.DatabaseError) as e:
-        logging.error(e)
+    postgres_data_generator = postgres_service.get_data_from_postgres(pg_conn, table)
+    for rows in postgres_data_generator:
+        data_from_db = [model(**row).post_init() for row in rows]
+        yield reformat_data(data_from_db)
 
 
 def reformat_data(data_from_db):
     sorted_data = sorted([astuple(item) for item in data_from_db])
-    len_data = len(sorted_data)
-    return len_data, sorted_data
+    return sorted_data
 
 
 if __name__ == "__main__":
-    sqlite_extractor = SQLiteExtractor()
-    postgres_saver = PostgresSaver()
-    with sqlite_extractor.conn_context(
+    sqlite_service = SQLiteService()
+    postgres_service = PostgresService()
+    with sqlite_service.conn_context(
         path
-    ) as sqlite_conn, postgres_saver.conn_context(dsn) as pg_conn:
+    ) as sqlite_conn, postgres_service.conn_context(dsn) as pg_conn:
         compare_data(sqlite_conn, pg_conn)
