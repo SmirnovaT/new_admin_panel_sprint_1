@@ -1,13 +1,8 @@
 import logging
 from contextlib import contextmanager
 import psycopg2
-import os
 import psycopg2.extras
-from dotenv import load_dotenv
 from psycopg2 import sql
-
-load_dotenv()
-dsn = os.environ.get("DB_DSN")
 
 
 class PostgresService:

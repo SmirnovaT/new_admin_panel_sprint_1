@@ -1,12 +1,6 @@
 import sqlite3
 from contextlib import contextmanager
-import os
-from dotenv import load_dotenv
 import logging
-
-load_dotenv()
-
-db_path = os.environ.get("DB_PATH")
 
 
 class SQLiteService:

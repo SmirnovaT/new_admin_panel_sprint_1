@@ -2,35 +2,16 @@ import logging
 from dataclasses import astuple
 from pathlib import Path
 from sqlite_to_postgres.sqlite_service import SQLiteService
-from sqlite_to_postgres.models import (
-    Genre,
-    FilmWork,
-    Person,
-    GenreFilmWork,
-    PersonFilmWork,
-)
 from sqlite_to_postgres.postgres_service import PostgresService
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
-
-db_path = os.environ.get("DB_PATH")
-dsn = os.environ.get("DB_DSN")
+import sqlite_to_postgres.settings as settings
 
 base_path = Path(__file__).resolve().parent.parent
-path = base_path / db_path
+SQLITE_DB_PATH = base_path / settings.SQLITE_DB_PATH
 
 
 def compare_data(sqlite_conn, pg_conn):
     """Метод сравнения данных из SQLite и  Postgres."""
-    mapping_table = {
-        "genre": Genre,
-        "film_work": FilmWork,
-        "person": Person,
-        "person_film_work": PersonFilmWork,
-        "genre_film_work": GenreFilmWork,
-    }
+    mapping_table = settings.mapping_table
     for table, model in mapping_table.items():
         count_rows_sqlite = sqlite_service.get_count_data(sqlite_conn, table)
         count_rows_postgres = postgres_service.get_count_data(pg_conn, table)
@@ -78,6 +59,8 @@ if __name__ == "__main__":
     sqlite_service = SQLiteService()
     postgres_service = PostgresService()
     with sqlite_service.conn_context(
-        path
-    ) as sqlite_conn, postgres_service.conn_context(dsn) as pg_conn:
+        SQLITE_DB_PATH
+    ) as sqlite_conn, postgres_service.conn_context(
+        settings.POSTGRES_DB_DSN
+    ) as pg_conn:
         compare_data(sqlite_conn, pg_conn)

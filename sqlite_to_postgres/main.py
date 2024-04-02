@@ -1,35 +1,16 @@
 from dataclasses import astuple, fields
 
 from sqlite_to_postgres.sqlite_service import SQLiteService
-from sqlite_to_postgres.models import (
-    FilmWork,
-    Genre,
-    GenreFilmWork,
-    PersonFilmWork,
-    Person,
-)
 from sqlite_to_postgres.postgres_service import PostgresService
+import settings
 
 import logging
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
-db_path = os.environ.get("DB_PATH")
-dsn = os.environ.get("DB_DSN")
 
 
 def load_from_sqlite(sqlite_conn, pg_conn):
     """Основной метод загрузки данных из SQLite в Postgres"""
 
-    mapping_table = {
-        "genre": Genre,
-        "film_work": FilmWork,
-        "person": Person,
-        "person_film_work": PersonFilmWork,
-        "genre_film_work": GenreFilmWork,
-    }
-
+    mapping_table = settings.mapping_table
     for table, model in mapping_table.items():
         try:
             data_generator = sqlite_service.get_data_from_table(sqlite_conn, table)
@@ -55,6 +36,8 @@ if __name__ == "__main__":
     sqlite_service = SQLiteService()
     postgres_service = PostgresService()
     with sqlite_service.conn_context(
-        db_path
-    ) as sqlite_conn, postgres_service.conn_context(dsn) as pg_conn:
+        settings.SQLITE_DB_PATH
+    ) as sqlite_conn, postgres_service.conn_context(
+        settings.POSTGRES_DB_DSN
+    ) as pg_conn:
         load_from_sqlite(sqlite_conn, pg_conn)
