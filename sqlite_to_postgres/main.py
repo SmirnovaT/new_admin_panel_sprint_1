@@ -21,7 +21,6 @@ def load_from_sqlite(sqlite_conn, pg_conn):
                 postgres_service.data_to_postgres(
                     pg_conn, table, column_names_str, data_to_insert
                 )
-            logging.info(f"Данные из таблицы {table} успешно загружены")
         except Exception as e:
             logging.error(e)
 

@@ -14,6 +14,7 @@ SQLITE_DB_PATH = base_path / settings.SQLITE_DB_PATH
 def compare_data(sqlite_conn, pg_conn):
     """Метод сравнения данных из SQLite и  Postgres."""
     mapping_table = settings.mapping_table
+    success = True
     for table, model in mapping_table.items():
         count_rows_sqlite = sqlite_service.get_count_data(sqlite_conn, table)
         count_rows_postgres = postgres_service.get_count_data(pg_conn, table)
@@ -21,6 +22,7 @@ def compare_data(sqlite_conn, pg_conn):
             assert count_rows_sqlite == count_rows_postgres
         except AssertionError:
             logging.error(f"Количество строк не совпадает в таблице {table}")
+            success = False
 
         part_data_sqlite = get_all_from_table_sqlite(sqlite_conn, table, model)
 
@@ -33,7 +35,9 @@ def compare_data(sqlite_conn, pg_conn):
                 assert batch_sqlite == batch_postgres
         except AssertionError:
             logging.error(f"Данные не совпадают в таблице {table}")
-    logging.info("Все данные сопоставлены, различий нет")
+            success = False
+    if success:
+        logging.info("Все данные сопоставлены, различий нет")
 
 
 def get_all_from_table_sqlite(sqlite_conn, table, model):

@@ -27,6 +27,8 @@ class PostgresService:
             pg_conn.commit()
         except (Exception, psycopg2.DatabaseError) as e:
             logging.error(f"Не удалось загрудить данные в таблицу {table_name}: {e}")
+        else:
+            logging.info(f"Данные из таблицы {table_name} успешно загружены")
 
     @staticmethod
     def get_data_from_postgres(pg_conn, table):
