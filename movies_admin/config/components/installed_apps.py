@@ -1,3 +1,5 @@
+from django.conf import settings
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -7,3 +9,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "movies.apps.MoviesConfig",
 ]
+
+if settings.DEBUG:
+    INSTALLED_APPS += ["debug_toolbar"]
