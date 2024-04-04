@@ -1,4 +1,7 @@
+import sqlite3
 from dataclasses import astuple, fields
+
+import psycopg2
 
 from sqlite_to_postgres.sqlite_service import SQLiteService
 from sqlite_to_postgres.postgres_service import PostgresService
@@ -14,6 +17,7 @@ def load_from_sqlite(sqlite_conn, pg_conn):
 
     mapping_table = settings.mapping_table
     for table, model in mapping_table.items():
+        success = True
         try:
             data_generator = sqlite_service.get_data_from_table(sqlite_conn, table)
             for rows in data_generator:
@@ -21,16 +25,23 @@ def load_from_sqlite(sqlite_conn, pg_conn):
                 postgres_service.data_to_postgres(
                     pg_conn, table, column_names_str, data_to_insert
                 )
-        except Exception as e:
-            logging.error(e)
+        except (sqlite3.Error, psycopg2.DatabaseError) as e:
+            logging.error(f"Не удалось забрать данные из таблицы {table}: {e}")
+            success = False
+
+        if success:
+            logging.info(f"Данные из таблицы {table} успешно загружены")
 
 
 def reformat_data(model, data):
-    data_from_db = [(model(**row)) for row in data]
-    data_to_insert = [astuple(item) for item in data_from_db]
-    column_names = [field.name for field in fields(data_from_db[0])]
-    column_names_str = ", ".join(column_names)
-    return data_to_insert, column_names_str
+    try:
+        data_from_db = [(model(**row)) for row in data]
+        data_to_insert = [astuple(item) for item in data_from_db]
+        column_names = [field.name for field in fields(data_from_db[0])]
+        column_names_str = ", ".join(column_names)
+        return data_to_insert, column_names_str
+    except Exception as e:
+        logging.error(e)
 
 
 if __name__ == "__main__":

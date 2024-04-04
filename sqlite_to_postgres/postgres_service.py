@@ -4,6 +4,8 @@ import psycopg2
 import psycopg2.extras
 from psycopg2 import sql
 
+from sqlite_to_postgres import settings
+
 
 class PostgresService:
     """Установка и закрытие соединения с Postgres. Вставка данных."""
@@ -21,14 +23,9 @@ class PostgresService:
     @staticmethod
     def data_to_postgres(pg_conn, table_name: str, column_names_str, data):
         cursor = pg_conn.cursor()
-        try:
-            query = f"INSERT INTO content.{table_name} ({column_names_str}) VALUES %s ON CONFLICT (id) DO NOTHING"
-            psycopg2.extras.execute_values(cursor, query, data)
-            pg_conn.commit()
-        except (Exception, psycopg2.DatabaseError) as e:
-            logging.error(f"Не удалось загрудить данные в таблицу {table_name}: {e}")
-        else:
-            logging.info(f"Данные из таблицы {table_name} успешно загружены")
+        query = f"INSERT INTO content.{table_name} ({column_names_str}) VALUES %s ON CONFLICT (id) DO NOTHING"
+        psycopg2.extras.execute_values(cursor, query, data)
+        pg_conn.commit()
 
     @staticmethod
     def get_data_from_postgres(pg_conn, table):
@@ -38,10 +35,7 @@ class PostgresService:
             cur.execute(
                 sql.SQL("SELECT * FROM content.{}").format(sql.Identifier(table))
             )
-            while True:
-                rows = cur.fetchmany(100)
-                if not rows:
-                    break
+            while rows := cur.fetchmany(settings.BUTCH_SIZE):
                 yield rows
         except (Exception, psycopg2.DatabaseError) as e:
             logging.error(e)

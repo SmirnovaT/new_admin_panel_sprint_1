@@ -2,6 +2,8 @@ import sqlite3
 from contextlib import contextmanager
 import logging
 
+from sqlite_to_postgres import settings
+
 
 class SQLiteService:
     """Установка и закрытие соединения с SQLite. Импорт данных."""
@@ -20,15 +22,9 @@ class SQLiteService:
     @staticmethod
     def get_data_from_table(conn, table_name: str):
         curs = conn.cursor()
-        try:
-            curs.execute(f"SELECT * FROM {table_name}")
-            while True:
-                rows = curs.fetchmany(100)
-                if not rows:
-                    break
-                yield rows
-        except sqlite3.Error as e:
-            logging.error(f"Не удалось забрать данные из таблицы {table_name}: {e}")
+        curs.execute(f"SELECT * FROM {table_name}")
+        while rows := curs.fetchmany(settings.BUTCH_SIZE):
+            yield rows
 
     @staticmethod
     def get_count_data(conn, table_name):
