@@ -10,6 +10,7 @@ include(
     "components/installed_apps.py",
     "components/middleware.py",
     "components/templates.py",
+    "components/logging.py",
 )
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -38,3 +39,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOCALE_PATHS = ["movies/locale"]
 
 INTERNAL_IPS = ["127.0.0.1"]
+
+STATIC_ROOT = "app/static"
+
+CORS_ALLOWED_ORIGINS = ["http://127.0.0.1"]

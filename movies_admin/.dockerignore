@@ -12,4 +12,3 @@ LICENSE
 venv/
 **/__pycache__/
 Makefile
-.env

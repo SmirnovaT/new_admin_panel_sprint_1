@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "movies-admin"
+version = "0.1.0"
+description = ""
+authors = ["Татьяна Смирнова <tsmirnova@astralinux.ru>"]
+readme = "README.md"
+#packages = [{include = "movies_admin"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+python-dotenv = "^1.0.1"
+django = "4.2.11"
+psycopg2-binary = "^2.9.9"
+split-settings = "^1.0.0"
+django-debug-toolbar = "^4.3.0"
+more-itertools = "^10.2.0"
+uwsgi = "^2.0.24"
+gunicorn = "^21.2.0"
+django-cors-headers = "^4.3.1"
+django-rest-swagger = "^2.2.0"
+pip = "^24.0"
+install = "^1.3.5"
+drf-yasg = "^1.21.7"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -8,6 +8,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "movies.apps.MoviesConfig",
+    "corsheaders",
 ]
 
 if settings.DEBUG:

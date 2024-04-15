@@ -1,0 +1,63 @@
+version: '3.3'
+
+services:
+  postgres:
+    image: postgres:14-alpine
+    env_file:
+      - .env
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=vacation
+    networks:
+      - backend.local
+
+
+  service:
+    env_file:
+      - .env
+    build: .
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - static_files_volume:/app/static
+    networks:
+      - my-network
+
+
+
+  nginx:
+    image: nginx:1.25.3
+    volumes:
+      - static_files_volume:/app/static
+      - ./src/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./src/site.conf:/etc/nginx/site.conf:ro
+    depends_on:
+      - service
+    ports:
+      - "127.0.0.1:8025:8025"
+    networks:
+      - my-network
+
+  swagger:
+    image: swaggerapi/swagger-ui:latest
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - ./openapi.yaml:/usr/share/nginx/html/swagger/openapi.yaml:ro
+    networks:
+      - my-network
+
+volumes:
+  postgres-data:
+  static_files_volume:
+
+networks:
+  backend.local:
+    external: true
+  my-network:
+    external: true
